@@ -2,10 +2,30 @@ import { Farmacia } from "./farmacia";
 
 export class Nodo{
     constructor(
-        public data: Farmacia,
-        public prev: Nodo | null = null,
-        public next: Nodo | null = null
+        private data: Farmacia,
+        private prev: Nodo | null = null,
+        private next: Nodo | null = null
     ){}
+
+    public getData(): Farmacia{
+        return this.data
+    }
+
+    public getPrev(): Nodo | null{
+        return this.prev
+    }
+
+    public modPrev(previo: Nodo | null): void{
+        this.prev = previo
+    }
+
+    public getNext(): Nodo | null{
+        return this.next
+    }
+
+    public modNext(siguiente: Nodo | null): void{
+        this.next = siguiente
+    }
     }
 
 export class DoubleLinkedList{
@@ -18,8 +38,8 @@ export class DoubleLinkedList{
             this.head = newNode;
             this.tail = newNode;
         } else{
-            newNode.prev = this.tail;
-            this.tail.next = newNode;
+            newNode.modPrev(this.tail);
+            this.tail.modNext(newNode);
             this.tail = newNode;
         }
     }
@@ -27,8 +47,8 @@ export class DoubleLinkedList{
     public search(carnet: String): Farmacia | null{
         let current = this.head;
         while (current){
-            if (current.data.getCode() == carnet){
-                return current.data;
+            if (current.getData().getCode() == carnet){
+                return current.getData();
             }
         }
         return null;
@@ -40,13 +60,13 @@ export class DoubleLinkedList{
         let current: Nodo | null = this.head;
 
         while (current){
-            if (current.next == null){
-                result += current.data;
+            if (current.getNext() == null){
+                result += current.getData();
             }
             else{
-                result += current.data + "\n" + "-------------" + "\n";
+                result += current.getData() + "\n" + "-------------" + "\n";
             }
-            current = current.next;
+            current = current.getNext();
         }
         return result;
     }
